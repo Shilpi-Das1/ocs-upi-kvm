@@ -1,0 +1,12 @@
+diff --git a/ocs_ci/deployment/helpers/storage_class.py b/ocs_ci/deployment/helpers/storage_class.py
+index 82c0f7d8b..ad770b741 100644
+--- a/ocs_ci/deployment/helpers/storage_class.py
++++ b/ocs_ci/deployment/helpers/storage_class.py
+@@ -17,6 +17,7 @@ DEFAULT_STORAGE_CLASS_MAP = {
+     constants.GCP_PLATFORM: None,
+     constants.ROSA_HCP_PLATFORM: None,
+     constants.RHV_PLATFORM: "ovirt-csi-sc",
++    constants.IBM_POWER_PLATFORM: None,
+ }
+ 
+ 
