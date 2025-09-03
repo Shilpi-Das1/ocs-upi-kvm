@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 ARCH=`arch`
 [ "$ARCH" == "x86_64" ] && ARCH="amd64"
