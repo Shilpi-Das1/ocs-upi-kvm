@@ -55,8 +55,7 @@ mkdir -p $LOGDIR
 cp -f ../../files/ocs-ci/ocs-ci-conf.yaml $WORKSPACE/ocs-ci-conf.yaml
 update_supplemental_ocsci_config
 
-if [[ "$OCS_VERSION" == "4.21" ]]; then
-   echo "Creating idms for local storage operator"
+echo "Creating idms for local storage operator"
    cat <<'EOF' | oc apply -f -
 apiVersion: config.openshift.io/v1
 kind: ImageDigestMirrorSet
@@ -84,7 +83,6 @@ spec:
     - quay.io/redhat-user-workloads/ocp-art-tenant/art-images-share
     source: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator
 EOF
-fi
 
 echo "run-ci -m deployment --deploy --ocs-version $OCS_VERSION ..."
 

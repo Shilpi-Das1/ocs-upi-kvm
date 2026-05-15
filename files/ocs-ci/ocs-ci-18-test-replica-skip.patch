@@ -1,5 +1,5 @@
 diff --git a/tests/functional/storageclass/test_replica1.py b/tests/functional/storageclass/test_replica1.py
-index dfb52169f..214e0a4b4 100644
+index 7d12f5a55..99999559f 100644
 --- a/tests/functional/storageclass/test_replica1.py
 +++ b/tests/functional/storageclass/test_replica1.py
 @@ -9,6 +9,9 @@ from ocs_ci.framework.pytest_customization.marks import (
@@ -12,7 +12,7 @@ index dfb52169f..214e0a4b4 100644
  from ocs_ci.ocs.ocp import OCP
  from ocs_ci.ocs.exceptions import CommandFailed
  from ocs_ci.ocs.resources.storage_cluster import (
-@@ -129,6 +132,7 @@ def create_pod_on_failure_domain(project_factory, failure_domain: str):
+@@ -140,6 +143,7 @@ def create_pod_on_failure_domain(project_factory, failure_domain: str):
  @brown_squad
  @tier1
  @skipif_external_mode

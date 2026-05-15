@@ -1,19 +1,19 @@
 diff --git a/ocs_ci/deployment/helpers/lso_helpers.py b/ocs_ci/deployment/helpers/lso_helpers.py
-index 6bd5ff080..316603132 100644
+index b137df23f..0ae5e5dd8 100644
 --- a/ocs_ci/deployment/helpers/lso_helpers.py
 +++ b/ocs_ci/deployment/helpers/lso_helpers.py
-@@ -21,6 +21,7 @@ from ocs_ci.ocs.node import (
-     get_master_nodes,
+@@ -31,6 +31,7 @@ from ocs_ci.utility.utils import (
+     wipe_all_disk_partitions_for_node,
+     get_running_ocp_version,
  )
- from ocs_ci.utility import templating, version
 +from ocs_ci.ocs.utils import label_pod_security_admission
- from ocs_ci.utility.deployment import get_ocp_ga_version
- from ocs_ci.utility.operators import LocalStorageOperator
- from ocs_ci.utility.localstorage import get_lso_channel
-@@ -62,7 +63,8 @@ def setup_local_storage(storageclass):
-     lso_type = config.DEPLOYMENT.get("type")
- 
-     add_disks_lso()
+ from ocs_ci.ocs.ocp import OCP
+ from ocs_ci.ocs.resources.catalog_source import CatalogSource, disable_specific_source
+
+@@ -64,7 +65,8 @@ def setup_local_storage(storageclass, add_new_disks=True):
+
+     if add_new_disks:
+         add_disks_lso()
 -
 +    lso_namespace = config.ENV_DATA["local_storage_namespace"]
 +    label_pod_security_admission(lso_namespace)
