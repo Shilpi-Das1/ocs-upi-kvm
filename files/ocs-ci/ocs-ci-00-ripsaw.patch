@@ -1,12 +1,12 @@
 diff --git a/ocs_ci/ocs/benchmark_operator.py b/ocs_ci/ocs/benchmark_operator.py
-index 48f86e82e..9741b9417 100644
+index 32f5a7d1a..2c7095cf0 100644
 --- a/ocs_ci/ocs/benchmark_operator.py
 +++ b/ocs_ci/ocs/benchmark_operator.py
-@@ -126,6 +126,15 @@ class BenchmarkOperator(object):
+@@ -126,6 +126,14 @@ class BenchmarkOperator(object):
              log.info(f"Cloning {BMO_NAME} in {self.dir}")
              git_clone_cmd = f"git clone -b {self.branch} {self.repo} --depth 1"
              run(git_clone_cmd, shell=True, cwd=self.dir, check=True)
-+
++            
 +            self.projdir = self.dir + "/benchmark-operator/config"
 +            log.info(f"Patching kube-burner for ppc64le in {self.projdir}")
 +            run("sed -i 's|quay.io/cloud-bulldozer/kube-burner:latest|quay.io/multi-arch/cloud-bulldozer:kube-burner|g' crd/bases/ripsaw.cloudbulldozer.io_benchmarks.yaml" , shell=True, check=True, cwd=self.projdir)
@@ -14,15 +14,14 @@ index 48f86e82e..9741b9417 100644
 +            run("sed -i 's|quay.io/cloud-bulldozer/backpack:latest|quay.io/multi-arch/cloud-bulldozer:backpack|g' crd/bases/ripsaw.cloudbulldozer.io_benchmarks.yaml", shell=True, check=True, cwd=self.projdir)
 +            log.info(f"Patching redis for ppc64le in {self.projdir}")
 +            run("sed -i 's|bitnami/redis:latest|quay.io/multiarch-k8s-e2e/redis:1.1|g' manager/manager.yaml", shell=True, check=True, cwd=self.projdir)
-+
          except (CommandFailed, CalledProcessError) as cf:
              log.error(f"Error during cloning of {BMO_NAME} repository")
              raise cf
-@@ -156,7 +165,7 @@ class BenchmarkOperator(object):
+@@ -156,7 +164,7 @@ class BenchmarkOperator(object):
          """
          log.info("Deploy the benchmark-operator project")
          try:
--            bo_image = "quay.io/ocsci/benchmark-operator:testing"
+-            bo_image = "quay.io/cloud-bulldozer/benchmark-operator:latest"
 +            bo_image = "quay.io/aaruniaggarwal/benchmark-operator:latest"
              if config.DEPLOYMENT.get("disconnected"):
                  bo_image = mirror_image(bo_image)
