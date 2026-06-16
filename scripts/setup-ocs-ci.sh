@@ -129,9 +129,10 @@ fi
 
 rm -rf "$WORKSPACE/venv"
 
-/usr/local/bin/python3.11 -m venv "$WORKSPACE/venv"
+PYTHON_BIN=$(command -v python3.11 || command -v python3)
+"$PYTHON_BIN" -m venv "$WORKSPACE/venv"
 
-. "$WORKSPACE/venv/bin/activate"		# activate named python venv
+. "$WORKSPACE/venv/bin/activate"	# activate named python venv
 
 pip3 install --upgrade pip setuptools wheel Cython
 pip3 install -r requirements.txt 
