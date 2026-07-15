@@ -25,8 +25,8 @@ readonly OCS_CI_CONF="${OCS_CI_CONF:-$HOME/ocs-ci-conf.yaml}"
 #########################################################
 # VARIABLES
 #########################################################
-
-readonly OCS_VERSION="4.22"
+source helper/parameters.sh
+export OCS_VERSION="${OCS_VERSION}"
 
 # Can be overridden while running
 # Example: TEST_MARKER=tier4b RUN_MODE=object ./test.sh
