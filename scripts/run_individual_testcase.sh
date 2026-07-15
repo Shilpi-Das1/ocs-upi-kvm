@@ -36,10 +36,9 @@ PARALLEL_JOBS="${PARALLEL_JOBS:-1}"
 DRY_RUN="${DRY_RUN:-false}"
 
 readonly BASE_DIR="$(pwd)"
-readonly TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-readonly LOG_BASE_DIR="${BASE_DIR}/rerun-logs-${TIMESTAMP}"
-readonly SUMMARY_FILE="${BASE_DIR}/test_summary_${TIMESTAMP}.log"
-readonly REPORT_FILE="${BASE_DIR}/final_test_report_${TIMESTAMP}.txt"
+readonly LOG_BASE_DIR="${BASE_DIR}/${TEST_MARKER}_${RUN_MODE}_test_results"
+readonly SUMMARY_FILE="${BASE_DIR}/${TEST_MARKER}_${RUN_MODE}_test_summary.log"
+readonly REPORT_FILE="${BASE_DIR}/${TEST_MARKER}_${RUN_MODE}_final_test_report.txt"
 
 #########################################################
 # UTILITY FUNCTIONS
