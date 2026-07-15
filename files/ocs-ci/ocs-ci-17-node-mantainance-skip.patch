@@ -1,42 +1,50 @@
 diff --git a/tests/functional/z_cluster/nodes/test_nodes_maintenance.py b/tests/functional/z_cluster/nodes/test_nodes_maintenance.py
-index b2566c107..d2f7f5896 100644
+index 6699ba269..1aea68236 100644
 --- a/tests/functional/z_cluster/nodes/test_nodes_maintenance.py
 +++ b/tests/functional/z_cluster/nodes/test_nodes_maintenance.py
-@@ -32,6 +32,7 @@ from ocs_ci.framework.pytest_customization.marks import (
+@@ -31,6 +31,7 @@ from ocs_ci.framework.pytest_customization.marks import (
+     brown_squad,
      skipif_hci_provider,
      skipif_rosa_hcp,
-     skipif_compact_mode,
 +    skipif_ibm_power,
+     skipif_compact_mode,
  )
  from ocs_ci.framework.testlib import (
-     tier1,
-@@ -135,6 +136,7 @@ class TestNodesMaintenance(ManageTest):
+@@ -133,6 +134,7 @@ class TestNodesMaintenance(ManageTest):
+ 
      @tier1
      @skipif_managed_service
++    @skipif_ibm_power
      @skipif_hci_provider
-+    @skipif_ibm_power
      @pytest.mark.parametrize(
          argnames=["node_type"],
-         argvalues=[
-@@ -214,6 +216,7 @@ class TestNodesMaintenance(ManageTest):
-     @skipif_bm
-     @skipif_managed_service
-     @skipif_hci_provider_and_client
-+    @skipif_ibm_power
-     @pytest.mark.parametrize(
-         argnames=["node_type"],
-         argvalues=[
-@@ -373,6 +376,7 @@ class TestNodesMaintenance(ManageTest):
+@@ -211,6 +213,7 @@ class TestNodesMaintenance(ManageTest):
+ 
      @tier4a
-     @aws_based_platform_required
-     @ipi_deployment_required
+     @skipif_bm
++    @skipif_ibm_power
+     @skipif_managed_service
+     @pytest.mark.parametrize(
+         argnames=["node_type"],
+@@ -293,6 +296,7 @@ class TestNodesMaintenance(ManageTest):
+         self.sanity_helpers.delete_resources()
+ 
+     @tier3
 +    @skipif_ibm_power
      @pytest.mark.parametrize(
-         argnames=["interface"],
+         argnames=["nodes_type"],
          argvalues=[
-@@ -494,6 +498,7 @@ class TestNodesMaintenance(ManageTest):
+@@ -329,6 +333,7 @@ class TestNodesMaintenance(ManageTest):
+ 
+     @tier2
+     @pytest.mark.polarion_id("OCS-1274")
++    @skipif_ibm_power
+     @skipif_compact_mode
+     def test_2_nodes_different_types(
+         self, pvc_factory, pod_factory, bucket_factory, rgw_bucket_factory
+@@ -492,6 +497,7 @@ class TestNodesMaintenance(ManageTest):
+ 
      @skipif_managed_service
-     @skipif_hci_provider_and_client
      @skipif_more_than_three_workers
 +    @skipif_ibm_power
      @pytest.mark.polarion_id("OCS-2524")

@@ -39,20 +39,40 @@ fi
 if [  -n "$(uname -a | grep Ubuntu)" ]; then
      # Update package index
     sudo apt update
-    # Install build tools and Python 3.11 dependencies
+    # Install build tools and Python 3.11 dependencies (fixed)
     sudo apt install -y \
-        build-essential \
-        python3.11 python3.11-venv python3.11-dev \
-        libffi-dev libssl-dev libcurl4-openssl-dev \
-        liblapack3 libatlas-base-dev \
-        libxml2-dev libxslt1-dev \
-        gfortran make patch unzip
+      build-essential \
+      wget curl \
+      libssl-dev zlib1g-dev \
+      libncurses5-dev libncursesw5-dev \
+      libreadline-dev libsqlite3-dev \
+      libgdbm-dev libbz2-dev \
+      libexpat1-dev liblzma-dev \
+      tk-dev libffi-dev uuid-dev \
+      libcurl4-openssl-dev \
+      liblapack3 libxml2-dev libxslt1-dev \
+      gfortran make patch unzip kmod snapd
+      sudo ln -s /bin/lsmod /usr/sbin/lsmod
+     #Install kustomize
+     sudo snap install kustomize
+    # Install Python 3.11 manually
+    cd /tmp
+    wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
+    tar -xf Python-3.11.9.tgz
+    cd Python-3.11.9
+
+   ./configure
+    make -j$(nproc)
+   sudo make altinstall
+   #Install Openblas
+   sudo apt install -y libopenblas-dev libopenblas-openmp-dev pkg-config
 else
+    sudo dnf update -y
     sudo dnf -y install \
         gcc gcc-c++ gcc-gfortran make patch \
         libffi-devel lapack atlas-devel \
         openssl-devel curl libcurl-devel \
-        libxml2-devel unzip rust-toolset
+        libxml2-devel unzip rust-toolset kustomize
     #Needed for pyyaml
     subscription-manager repos --enable codeready-builder-for-rhel-9-ppc64le-rpms
     dnf install -y libyaml-devel
@@ -60,25 +80,27 @@ else
     sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm || true
     # Install Python 3.11
     sudo dnf install -y python3.11 python3.11-devel python3.11-pip
+    #Install Openblas
+    sudo dnf install -y openblas openblas-devel
 fi
 
-git clone https://github.com/OpenMathLib/OpenBLAS.git
-cd OpenBLAS
-git checkout v0.3.26
-make -j8
-make PREFIX=/usr/local/OpenBLAS install
-export PKG_CONFIG_PATH=/usr/local/OpenBLAS/lib/pkgconfig
-cd ..
-
-pushd ../src/ocs-ci
+pushd "$WORKSPACE/ocs-upi-kvm/src/ocs-ci"
 
 set +e
 
-patchfiles=( $(ls ../../files/ocs-ci/ocs-ci-[0-9][0-9]-*.patch) )
-echo "patchfiles=${patchfiles[@]}"
 
-platform_patchfiles=( $(ls ../../files/ocs-ci/$PLATFORM/ocs-ci-*[0-9][0-9]-*.patch) )
-echo platform_patchfiles=${platform_patchfiles[@]}
+FILES_DIR="$WORKSPACE/ocs-upi-kvm/files/ocs-ci"
+
+# Collect patch files safely
+patchfiles=( $FILES_DIR/ocs-ci-[0-9][0-9]-*.patch )
+[ -e "${patchfiles[0]}" ] || patchfiles=()
+
+platform_patchfiles=( $FILES_DIR/$PLATFORM/ocs-ci-*[0-9][0-9]-*.patch )
+[ -e "${platform_patchfiles[0]}" ] || platform_patchfiles=()
+
+echo "patchfiles=${patchfiles[@]}"
+echo "platform_patchfiles=${platform_patchfiles[@]}"
+
 
 set -e
 
@@ -108,11 +130,11 @@ if [[ "${#patchfiles[@]}" -gt 0 ]] || [[ "${#platform_patchfiles[@]}" -gt 0 ]]; 
         fi
 fi
 
-rm -rf $WORKSPACE/venv
+rm -rf "$WORKSPACE/venv"
+PYTHON_BIN=$(command -v python3.11 || command -v python3)
+"$PYTHON_BIN" -m venv "$WORKSPACE/venv"
 
-python3.11 -m venv $WORKSPACE/venv
-
-. $WORKSPACE/venv/bin/activate		# activate named python venv
+. "$WORKSPACE/venv/bin/activate"		# activate named python venv
 
 pip3 install --upgrade pip setuptools wheel Cython
 pip3 install -r requirements.txt 
