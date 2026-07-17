@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 if [ ! -e helper/parameters.sh ]; then
 	echo "This script should be invoked from the directory ocs-upi-kvm/scripts"
@@ -57,6 +58,7 @@ if [  -n "$(uname -a | grep Ubuntu)" ]; then
      sudo snap install kustomize
     # Install Python 3.11 manually
     cd /tmp
+	rm -rf /tmp/Python-3.11.9*
     wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
     tar -xf Python-3.11.9.tgz
     cd Python-3.11.9
