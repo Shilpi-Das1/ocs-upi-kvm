@@ -5,7 +5,7 @@
 # Usage (run from the ocs-upi-kvm/scripts directory):
 #
 #   export OCS_VERSION=4.15
-#   export TIER_NO=1
+#   export TIER_TEST=1
 #   ./rerun-ocs-ci.sh <path-to-pytest-log-file>
 #
 # Optional overrides (all have sensible defaults):
@@ -17,7 +17,7 @@
 #   1. Parse the "short test summary info" section of the provided log file.
 #   2. Extract only FAILED lines (ERROR lines are skipped).
 #   3. Strip the leading "FAILED " keyword; skip any /ui/ tests.
-#   4. Write the cleaned test-case list to ${LOG_DIR}/tier-${TIER_NO}-rerun.log
+#   4. Write the cleaned test-case list to ${LOG_DIR}/tier-${TIER_TEST}-rerun.log
 #   5. For every extracted test case:
 #        a. Check Ceph health (HEALTH_OK required to proceed).
 #        b. Run the individual test case via run-ci.
@@ -38,7 +38,7 @@ source helper/parameters.sh
 # Required environment variables
 # ---------------------------------------------------------------------------
 : "${OCS_VERSION:?ERROR: OCS_VERSION is not set (e.g. export OCS_VERSION=4.15)}"
-: "${TIER_NO:?ERROR: TIER_NO is not set (e.g. export TIER_NO=1)}"
+: "${TIER_TEST:?ERROR: TIER_TEST is not set (e.g. export TIER_TEST=1)}"
 
 # ---------------------------------------------------------------------------
 # Optional environment variables — all have defaults derived from $WORKSPACE
@@ -55,7 +55,7 @@ INPUT_LOG="$1"
 if [ -z "$INPUT_LOG" ]; then
     echo "Usage: $0 <path-to-pytest-log-file>"
     echo ""
-    echo "Required env vars:  OCS_VERSION, TIER_NO"
+    echo "Required env vars:  OCS_VERSION, TIER_TEST"
     echo "Optional env vars:"
     echo "  FILE_PATH    (default: \$WORKSPACE/ocs-upi-kvm/src/ocs-ci)"
     echo "  LOG_DIR      (default: \$WORKSPACE/rerun-logs)"
@@ -74,8 +74,8 @@ fi
 OCS_UPI_DIR="$WORKSPACE/ocs-upi-kvm"
 BASE_DIR="$WORKSPACE"
 OCS_CI_CONF="${OCS_CI_CONF:-$WORKSPACE/ocs-ci-conf.yaml}"
-RERUN_LOG_DIR="${LOG_DIR}/rerun-tier${TIER_NO}"
-INPUT_FILE="${LOG_DIR}/tier-${TIER_NO}-rerun.log"
+RERUN_LOG_DIR="${LOG_DIR}/rerun-tier${TIER_TEST}"
+INPUT_FILE="${LOG_DIR}/tier-${TIER_TEST}-rerun.log"
 
 # ---------------------------------------------------------------------------
 # Ensure output directories exist
@@ -145,7 +145,7 @@ fi
 # Step 4: Iterate over extracted test cases and rerun each one
 # ---------------------------------------------------------------------------
 echo "======================================================================="
-echo "Starting rerun of Tier ${TIER_NO} failed tests"
+echo "Starting rerun of Tier ${TIER_TEST} failed tests"
 echo "======================================================================="
 
 pushd "${FILE_PATH}" > /dev/null
@@ -187,7 +187,7 @@ while IFS= read -r TEST_CASE || [ -n "$TEST_CASE" ]; do
     echo "  Running test, logging to: $CURRENT_LOG"
 
     nohup run-ci \
-        -m "tier${TIER_NO}" \
+        -m "tier${TIER_TEST}" \
         --ocs-version "$OCS_VERSION" \
         --ocsci-conf "${OCS_UPI_DIR}/src/ocs-ci/conf/ocsci/production_powervs_upi.yaml" \
         --ocsci-conf "${OCS_UPI_DIR}/src/ocs-ci/conf/ocsci/lso_enable_rotational_disks.yaml" \
@@ -219,7 +219,7 @@ while IFS= read -r TEST_CASE || [ -n "$TEST_CASE" ]; do
     fi
 
     echo "  Result: $STATUS (exit code: $EXIT_CODE)"
-    echo "$TEST_CASE | Tier $TIER_NO | $STATUS" >> "$SUMMARY_FILE"
+    echo "$TEST_CASE | Tier $TIER_TEST | $STATUS" >> "$SUMMARY_FILE"
 
     echo "Sleeping 10 seconds before next test execution..."
     sleep 10
