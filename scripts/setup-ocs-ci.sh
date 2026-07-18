@@ -53,7 +53,7 @@ if [  -n "$(uname -a | grep Ubuntu)" ]; then
       libcurl4-openssl-dev \
       liblapack3 libxml2-dev libxslt1-dev \
       gfortran make patch unzip kmod snapd
-      sudo ln -s /bin/lsmod /usr/sbin/lsmod
+      sudo ln -sf /bin/lsmod /usr/sbin/lsmod || true
      #Install kustomize
      sudo snap install kustomize
     # Install Python 3.11 manually
