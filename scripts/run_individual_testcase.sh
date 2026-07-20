@@ -17,10 +17,10 @@ readonly CEPH_HEALTH_WAIT=120
 readonly COMMAND_TIMEOUT=3600
 
 # Paths - use $HOME instead of hardcoded paths
-readonly VENV_PATH="${VENV_PATH:-$HOME/venv}"
-readonly OCS_CI_PATH="${OCS_CI_PATH:-$HOME/ocs-upi-kvm/src/ocs-ci}"
-readonly CLUSTER_PATH="${CLUSTER_PATH:-$HOME}"
-readonly OCS_CI_CONF="${OCS_CI_CONF:-$HOME/ocs-ci-conf.yaml}"
+readonly VENV_PATH="${VENV_PATH:-$WORKSPACE/venv}"
+readonly OCS_CI_PATH="${OCS_CI_PATH:-$WORKSPACE/ocs-upi-kvm/src/ocs-ci}"
+readonly CLUSTER_PATH="${CLUSTER_PATH:-$WORKSPACE}"
+readonly OCS_CI_CONF="${OCS_CI_CONF:-$WORKSPACE/ocs-ci-conf.yaml}"
 
 #########################################################
 # VARIABLES
