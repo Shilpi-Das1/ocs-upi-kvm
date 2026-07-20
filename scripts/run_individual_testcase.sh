@@ -16,7 +16,7 @@ readonly SCRIPT_NAME="$(basename "$0")"
 readonly CEPH_HEALTH_WAIT=120
 readonly COMMAND_TIMEOUT=3600
 
-# Paths - use $HOME instead of hardcoded paths
+# Paths - use $WORKSPACE instead of hardcoded paths
 readonly VENV_PATH="${VENV_PATH:-$WORKSPACE/venv}"
 readonly OCS_CI_PATH="${OCS_CI_PATH:-$WORKSPACE/ocs-upi-kvm/src/ocs-ci}"
 readonly CLUSTER_PATH="${CLUSTER_PATH:-$WORKSPACE}"
