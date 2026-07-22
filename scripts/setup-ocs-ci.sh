@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euxo pipefail
 
 if [ ! -e helper/parameters.sh ]; then
 	echo "This script should be invoked from the directory ocs-upi-kvm/scripts"
