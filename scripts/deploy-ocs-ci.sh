@@ -63,32 +63,16 @@ fi
 
 echo "Creating idms for local storage operator"
 
-cat <<EOF | oc apply -f -
+cat <<EOF | oc create -f -
 apiVersion: config.openshift.io/v1
 kind: ImageDigestMirrorSet
 metadata:
-  name: local-storage-images-mirror-set
+  name: stage-idms
 spec:
   imageDigestMirrors:
-  - mirrors:
-    - quay.io/redhat-user-workloads/ocp-art-tenant/art-images-share
-    source: registry.redhat.io/${REGISTRY_PREFIX}/ose-kube-rbac-proxy-rhel9
-
-  - mirrors:
-    - quay.io/redhat-user-workloads/ocp-art-tenant/art-images-share
-    source: registry.redhat.io/${REGISTRY_PREFIX}/ose-local-storage-diskmaker-rhel9
-
-  - mirrors:
-    - quay.io/redhat-user-workloads/ocp-art-tenant/art-images-share
-    source: registry.redhat.io/${REGISTRY_PREFIX}/ose-local-storage-mustgather-rhel9
-
-  - mirrors:
-    - quay.io/redhat-user-workloads/ocp-art-tenant/art-images-share
-    source: registry.redhat.io/${REGISTRY_PREFIX}/ose-local-storage-operator-bundle
-
-  - mirrors:
-    - quay.io/redhat-user-workloads/ocp-art-tenant/art-images-share
-    source: registry.redhat.io/${REGISTRY_PREFIX}/ose-local-storage-rhel9-operator
+    - mirrors:
+        - registry.stage.redhat.io
+      source: registry.redhat.io
 EOF
 
 

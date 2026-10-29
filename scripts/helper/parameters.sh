@@ -14,9 +14,9 @@ export PLATFORM=${PLATFORM:="kvm"}
 
 export OCP_VERSION=${OCP_VERSION:="5.0"}
 
-export OCS_VERSION=${OCS_VERSION:="4.23"}
+export OCS_VERSION=${OCS_VERSION:="5.0"}
 export OCS_REGISTRY_IMAGE=${OCS_REGISTRY_IMAGE:="quay.io/rhceph-dev/ocs-registry:latest-stable-$OCS_VERSION"}
-export OPTIONAL_OPERATORS_IMAGE=${OPTIONAL_OPERATORS_IMAGE:-"quay.io/redhat-user-workloads/ocp-art-tenant/art-fbc:ocp__${OCP_VERSION}__ose-local-storage-rhel9-operator"}
+export OPTIONAL_OPERATORS_IMAGE=${OPTIONAL_OPERATORS_IMAGE:-"quay.io/redhat-user-workloads/ocp-art-tenant/art-fbc@sha256:40cabae7efea9716863395c4ce245d3b82c08555576aa72b4d1e8634331181bb"}
 
 
 export WORKERS=${WORKERS:=3}
