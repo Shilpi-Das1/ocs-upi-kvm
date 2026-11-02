@@ -62,7 +62,6 @@ if [[ "${OCP_VERSION}" == "5.0" ]]; then
 fi
 
 echo "Creating idms for local storage operator"
-
 cat <<EOF | oc create -f -
 apiVersion: config.openshift.io/v1
 kind: ImageDigestMirrorSet
@@ -74,7 +73,6 @@ spec:
         - registry.stage.redhat.io
       source: registry.redhat.io
 EOF
-
 
 echo "run-ci -m deployment --deploy --ocs-version $OCS_VERSION ..."
 
